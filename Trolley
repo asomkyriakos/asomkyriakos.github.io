@@ -1,0 +1,99 @@
+//I am typing everything in english because i can't be bother to use punctuations
+#include <stdio.h>  //the libraries needed for some of the commands used
+
+
+int main() {  //the main program
+//the declaration of the functions used in the program
+    long long int lnum;   //the cost of going left
+    long long int fnum;   //the cost of going right
+    int i = 2;            //a function used to count when one or both of the previous function got the correct value
+    long long int tmpl=0; // a temporary function to store lnum so it can be checked if it is not a number or if it reads end of file
+    long long int tmpf=0; // a temporary function to store fnum so it can be checked if it is not a number
+      
+    printf("Give the left cost: "); 
+    scanf("%lld", &lnum); //asking for the user to give the left cost
+    
+    tmpl = lnum;  //storing the value of lnum so it can be checked if it is a character
+    tmpl = getchar(); 
+    if (tmpl == EOF) { //checking if the user gave end of file 
+        return 0; //program termination if the user enters end of file
+    }
+
+    if ((tmpl >= 'a' && tmpl <= 'z') || (tmpl >= 'A' && tmpl <= 'Z')){ //checking if the user gave a character instead of a number as the left cost
+        return 1; //program termination if user gives a character
+    }
+
+    if(lnum < -1000000000000000000 || lnum > 1000000000000000000){ //checking if the left cost is out of bounds
+        return 1; //program termination if user gives a value that is off limits
+    }else{
+        i--;  //lowering the value of i since lnum has the correct value to be compared with fnum
+    }
+
+    printf("Give the right cost: ");
+    scanf("%lld", &fnum);  //asking for the user to give the right cost
+
+    tmpf = fnum;  //storing the value of rnum so it can be checked if it is a character
+    if((tmpf >= 'a' && tmpf <= 'z') || (tmpf >= 'A' && tmpf <= 'Z')){  //checking if the rnum is a character
+        return 1; //program termination if user gives a character
+    }
+
+    if(fnum < -1000000000000000000 || fnum > 1000000000000000000){  //checking if rnum is off limits
+        return 1; //program termination if user gives an off limits value
+    }else {
+        i--;  //lowering the value of i since rnum has the correct value
+    }
+
+    
+    while(i == 0) {  //the program can enter the while only if both rnum and lnum have the correct values
+        i = 2;  //resetting i so it can be used again for the same reason as earlier
+        if(fnum > lnum) {  //checking if right cost is higher than left
+            printf("Go Left\n");
+        } else if (lnum > fnum) { //checking if left cost is higher than right cost
+            printf("Go Right\n");
+        } else { //checking if both left and right cost are equal
+            printf("Go Left\n");
+        }
+
+        printf("left cost: "); //asking for the user to give the left cost
+        scanf("%lld", &lnum);
+
+        tmpl = lnum; //storing the left cost to check if it is a character or if the user gave end of file 
+
+        tmpl = getchar(); 
+        if (tmpl == EOF) {  //checking if the user gave end of file
+            return 0; //program termination if user gives end of file
+        }
+
+        if ((tmpl >= 'a' && tmpl <= 'z') || (tmpl >= 'A' && tmpl <= 'Z')){ //checking if the user gave a character
+        return 1; //program termination if user gives a character
+        }
+
+        if(lnum >= -1000000000000000000 && lnum <= 1000000000000000000){  //checking if lnum is off limits
+        i = i - 1; // the value of i decreases if lnum has the correct value
+        }else {
+            return 1; //program termination if user gives an off limits value
+        }
+        
+        printf("right cost: ");
+        scanf("%lld", &fnum);
+
+        tmpf = fnum; //storing the right cost to check if the user gave character 
+
+        if ((tmpf >= 'a' && tmpf <= 'z') || (tmpf >= 'A' && tmpf <= 'Z')){ //checking if rnum is a character
+        return 1; //program termination if user gives a character
+        }
+    
+        if(fnum >= -1000000000000000000 && fnum <= 1000000000000000000){ //checking if rnum is off limits
+        i = i - 1; //i decreases if rnum has the correct value
+        }else {
+            return 1; //program termination if user gives an off limit value
+        }
+
+
+    }
+    
+    if(i != 0){ //failsafe is something that isn't supposed to happen , happens :))
+        return 1; 
+    }
+    return 0;
+}
