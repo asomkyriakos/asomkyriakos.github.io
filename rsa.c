@@ -2,51 +2,54 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <stdio.h>
+#include <stdio.h>  
 
-
-unsigned long long enc(long long int base, long long exponent, long long modulus) {
-    if (modulus == 1) {
+unsigned long long enc(long long int m, long long e, long long N) {
+    if (N == 1) {
         return 0;
     }
 
     unsigned long long result = 1;
-    base = base % modulus;
+    m = m % N;
 
-    while (exponent > 0) {
+    while (e > 0) {
         // If the current exponent bit is set
-        if (exponent % 2 == 1) {
-            result = (result * base) % modulus;
+        if (e % 2 == 1) {
+            result = (result * m) % N;
         }
         // Shift exponent to the right by 1 bit
-        exponent = exponent / 2;
+        e = e >> 1;
         // Square the base
-        base = (base * base) % modulus;
+        m = (m * m) % N;
     }
 
     return result;
 }
-unsigned long long dec(long long int base, long long exponent, long long modulus) {
-    if (modulus == 1) {
+
+
+unsigned long long dec(long long int m, long long d, long long N) {
+    if (N == 1) {
         return 0;
     }
 
     unsigned long long result = 1;
-    base = base % modulus;
+    m = m % N;
 
-    while (exponent > 0) {
+    while (d > 0) {
         // If the current exponent bit is set
-        if (exponent % 2 == 1) {
-            result = (result * base) % modulus;
+        if (d % 2 == 1) {
+            result = (result * m) % N;
         }
         // Shift exponent to the right by 1 bit
-        exponent = exponent / 2;
+        d = d >> 1 ;
         // Square the base
-        base = (base * base) % modulus;
+        m= (m * m) % N;
     }
 
     return result;
 }
+
+
 int gcd(long long int a , long long int b){
     if((a % b) != 0){
         b = gcd(b , a % b);
@@ -58,18 +61,11 @@ int gcd(long long int a , long long int b){
         return b;
     }
 }
-int F(long long int N){
-    int i = 0;
-    for(int k =1 ; k < N ; k++){
-        if(gcd(N , k ) == 1){
-            i++;
-        }
-    }
-    return i;
-}
+
+
 int prime(long long int a){
     int k = 1;
-    for(int i = 2 ; i < a ; i++){
+    for(int i = 2 ; i < a/2 ; i++){
         if((a % i) == 0){
             k++;
         } 
@@ -119,11 +115,11 @@ int main(int argc , char * argv[]){
         printf("p and q must be prime\n");
         return 1;
     }
-    if(gcd(e,F(N)) != 1){
+    if(gcd(e,((p-1)*(q-1))) != 1){
         printf("e is not coprime with phi(N)\n");
         return 1;
     }
-    if((e*d) % F(N) != 1){
+    if((e*d) % ((p-1)*(q-1)) != 1){
         printf("e * d mod phi(N) is not 1\n");
         return 1;
     }
