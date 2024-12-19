@@ -9,6 +9,7 @@ int main(){
   int correctInput = 0;
   while (!correctInput)
   {
+    printf("Please provide a valid input\n");
     correctInput = scanf("%d", &x);
   }
   
