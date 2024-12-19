@@ -7,9 +7,11 @@ int x = 0 ;
 int main(){
   printf("Give 1 for windows and 0 for linux: ");
   int correctInput = 0;
-  while (!correctInput)
-  {
+  scanf("%d", &correctInput);
+  printf("\n")
+  while (correctInput != 0 && correctInput != 1){
     printf("Please provide a valid input\n");
+    printf("Give 1 for windows and 0 for linux: ");
     correctInput = scanf("%d", &x);
   }
   
