@@ -6,7 +6,13 @@
 int x = 0 ;
 int main(){
   printf("Give 1 for windows and 0 for linux: ");
-  scanf("%d", &x);
+  int correctInput = 0;
+  while (!correctInput)
+  {
+    printf("Please provide a valid input\n");
+    correctInput = scanf("%d", &x);
+  }
+  
 
 
 
