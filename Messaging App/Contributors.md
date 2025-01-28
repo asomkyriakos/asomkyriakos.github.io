@@ -1,2 +1,3 @@
 - Me
-- Spokazzonii
+- Spokazzoni:
+   - [Fixed a bug with EOF exiting]
