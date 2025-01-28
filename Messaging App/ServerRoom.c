@@ -52,8 +52,11 @@ int main(int argc, char const *argv[])
     while (1) {
         // Get input from the server user
         printf("Enter message to send (type 'exit' to terminate): ");
-        fgets(serMsg, sizeof(serMsg), stdin);
-
+        if (fgets(serMsg, sizeof(serMsg), stdin) == NULL) 
+        {
+            printf("\n");
+            break;
+        }
         // Send the message to the client
         send(clientSocket, serMsg, strlen(serMsg), 0);
 
