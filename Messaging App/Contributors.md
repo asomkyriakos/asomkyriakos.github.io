@@ -1,2 +1,2 @@
-> Me
-> Spokazzonii
+- Me
+- Spokazzonii
