@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="/styles/styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="wrapper">
+    <h1>TODO LIST</h1>
+
+    <div class="top-bar">
+
+        <form class="form-format" th:action="@{/search}" method="get">
+            <div class="search-container">
+                <input id="searchBar" name="searchingBar" type="text" class="search-Bar" placeholder="Search note...">
+                <button type="submit" class="search-button" onclick="event.preventDefault(); search()">🔍</button>
+            </div>
+        </form>
+
+        <div class="filter-section">
+            <label for="filter" style="display: none;">Filter</label>
+            <select name="filter" id="filter" class="filter-class">
+                <option value="all">All</option>
+                <option value="some">Some</option>
+            </select>
+            <button id="darkModeButton"  class="moon-button" onclick="darkMode(event)">🌙</button>
+        </div>
+    </div>
+    <div id ="tableBack">
+        <table id="toDoList" name="taskList">
+            <tbody>
+            <tr th:each="toDoArray : ${toDoArray}">
+                <td>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+<!--add line through tag script on check box check via script and event listener-->
+    <button class="purple-button" name="purpleButton" onclick="openPopup()">+</button>
+</div>
+<script>
+    function darkMode(event) {
+        document.body.classList.toggle('dark-mode');
+        document.searchBar.classList.toggle('dark-mode');
+        document.purpleButton.classList.toggle('dark-mode');
+    }
+
+    function openPopup() {
+        window.open(
+            '/popup', // make sure this path matches your popup location
+            'popupWindow',
+            'width=400,height=200,scrollbars=yes'
+        );
+    }
+
+    function addTaskToTable(task) {
+        const tableBody = document.getElementById('toDoList');
+        const newRow = tableBody.insertRow();
+        const cell = newRow.insertCell();
+        cell.innerHTML = `<input type="checkbox" id="checkBox" onchange="handleChange(this)" name="check"><span id="tableData" class="tableText">${task}</span>`;
+    }
+
+    window.addEventListener('message', function(event) {
+        if (event.data && event.data.type === 'new-task') {
+            addTaskToTable(event.data.task);
+        }
+    });
+
+    function setTextContent(msg, str) {
+        msg.innerHTML = str;
+    }
+
+
+    function handleChange(checkBox) {
+        const row = checkBox.closest('tr');
+        const task = row.querySelector('.tableText');
+        if (checkBox.checked) {
+            task.style.textDecoration = "line-through";
+        } else {
+            task.style.textDecoration = "none";
+        }
+
+    }
+
+    function search(){
+        let input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("searchBar");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("toDoList");  //the table
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+</script>
+
+</body>
+</html>

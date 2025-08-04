@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Popup Window</title>
+</head>
+<body>
+<h2>This is the popup page!</h2>
+<p>Put any content here you want in the popup.</p>
+
+<form id="taskForm">
+    <input id="task" name="task" type="text" placeholder="Add task" required>
+    <button type="submit">Submit</button>
+</form>
+
+<button onclick="window.close()">Close</button>
+
+<script>
+    document.getElementById("taskForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const task = document.getElementById("task").value.trim();
+
+        if (task !== "") {
+            window.opener.postMessage({ type: "new-task", task: task }, "*");
+            window.close();
+        }
+    });
+</script>
+</body>
+</html>
