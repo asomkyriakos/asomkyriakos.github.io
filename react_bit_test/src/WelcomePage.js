@@ -30,6 +30,12 @@ function WelcomePage(){
             >
                 Credits
             </button>
+            <button
+                className= "index-button"
+                onClick={() => (window.location.href = "MoreTests")}
+            >
+                Showcase
+            </button>
         </div>
     );
 }

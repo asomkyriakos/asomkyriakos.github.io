@@ -5,6 +5,7 @@ import WelcomePage from "./WelcomePage"
 import App from "./App";
 import Popup from "./popup"; // lowercase filename but still imported fine
 import Credits from "./credits"
+import MoreTests from "./moreTests";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -15,6 +16,7 @@ root.render(
                 <Route path="App" element={<App />} />
                 <Route path="/popup" element={<Popup />} />
                 <Route path="/credits" element={<Credits />} />
+                <Route path="/moreTests" element={<MoreTests/>}/>
             </Routes>
         </Router>
     </React.StrictMode>

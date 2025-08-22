@@ -1,0 +1,28 @@
+.main-frame {
+    height: 100vh; /* full viewport height */
+    display: flex;
+    justify-content: center; /* centers horizontally */
+    align-items: center;     /* centers vertically */
+    flex-direction: column;
+    gap: 10px;
+    font-family: Arial, sans-serif;
+    background-color: white;
+    margin: 0;
+}
+
+.text-box {
+    width: 130px;       /* square shape */
+    height: 60px;
+    background-color: #2563eb; /* Tailwind blue-600 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px; /* rounded square (remove if you want sharp) */
+}
+
+.rotating-text {
+    font-size: 26px;
+    font-weight: bold;
+    color: white;
+    overflow: hidden; /* keeps the rotation masked */
+}

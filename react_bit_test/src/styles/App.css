@@ -22,6 +22,9 @@ body, html {
     color: var(--clr-light);
 }
 
+.center-class{
+    align-items: center;
+}
 
 .wrapper {
     max-width: 600px;
@@ -43,7 +46,7 @@ h1 {
 
 .top-bar {
     display: flex;
-    /*justify-content: space-between;*/
+    justify-content: center;
     align-items: center;
     gap: 10px;
     margin-bottom: 20px;
@@ -137,5 +140,17 @@ td {
     font-size: 24px;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+#tableBack {
+    display: flex;
+    justify-content: center;  /* Center the table */
+    margin-top: 20px;
+}
+
+#toDoList {
+    width: 500px;              /* shrink table width to content */
+    margin: 0 auto;           /* center horizontally */
 }
 

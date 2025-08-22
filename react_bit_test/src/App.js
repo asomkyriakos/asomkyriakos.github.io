@@ -48,7 +48,7 @@ function App() {
     );
 
     return (
-            <div className={darkMode ? "dark-mode" : ""}>
+        <div className={`center-class ${darkMode ? "dark-mode" : ""}`}>
                     <div className="fade-style">
                     <DecryptedText
                         speed={75}
