@@ -1,0 +1,141 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --clr-dark: #333;  /* Dark color for text in light mode, background in dark mode */
+    --clr-light: #fff; /* Light color for background in light mode, text in dark mode */
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--clr-light);
+    color: var(--clr-dark);
+    transition: background-color 0.3s, color 0.3s;
+    height: 100%;
+}
+
+.dark-mode {
+    background-color: var(--clr-dark);
+    color: var(--clr-light);
+}
+
+
+.wrapper {
+    max-width: 600px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.fade-style{
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 30px;
+}
+
+.top-bar {
+    display: flex;
+    /*justify-content: space-between;*/
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.search-container {
+    position: relative;
+    width: 400px;
+}
+
+.search-Bar {
+    width: 100%;
+    padding: 8px 40px 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: var(--clr-light);
+    color: var(--clr-dark);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.search-button {
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    transform: translateY(-50%);
+    padding: 6px 10px;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.filter-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    color: #666;
+}
+
+.filter-class {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background-color: #7a5ef8;
+    color: white;
+}
+
+.moon-button {
+    background-color: #7a5ef8;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 10px;
+    color: white;
+    cursor: pointer;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    display: none;
+}
+
+td {
+    padding: 12px 0;
+    border-bottom: 1px solid #ddd;
+    font-size: 16px;
+    vertical-align: middle;
+}
+
+.tableBack{
+    background-color: var(--clr-light);
+    color: var(--clr-dark);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.purple-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #7a5ef8;
+    color: white;
+    border: none;
+    padding: 16px 20px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+

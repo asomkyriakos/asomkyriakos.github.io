@@ -1,0 +1,22 @@
+.index-button{
+    background-color: #7a5ef8;
+    color: white;
+    border: none;
+    padding: 16px 20px;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.index-format {
+    height: 100vh; /* full viewport height */
+    display: flex;
+    justify-content: center; /* centers vertically */
+    align-items: center;     /* centers horizontally */
+    flex-direction: column;  /* stack items top to bottom */
+    gap: 10px;
+    font-family: Arial, sans-serif;
+    background-color: white;
+    margin: 0;
+}
