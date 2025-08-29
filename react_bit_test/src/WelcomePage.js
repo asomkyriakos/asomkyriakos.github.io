@@ -26,15 +26,21 @@ function WelcomePage(){
             </button>
             <button
                 className= "index-button"
+                onClick={() => (window.location.href = "MoreTests")}
+            >
+                Showcase
+            </button>
+            <button
+                className= "index-button"
                 onClick={() => (window.location.href = "Credits")}
             >
                 Credits
             </button>
             <button
                 className= "index-button"
-                onClick={() => (window.location.href = "MoreTests")}
+                onClick={() => (window.location.href = "Regards")}
             >
-                Showcase
+                For the End
             </button>
         </div>
     );

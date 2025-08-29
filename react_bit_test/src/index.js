@@ -6,6 +6,8 @@ import App from "./App";
 import Popup from "./popup"; // lowercase filename but still imported fine
 import Credits from "./credits"
 import MoreTests from "./moreTests";
+import EasterEgg from "./easterEgg";
+import Regards from "./Regards";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -17,6 +19,8 @@ root.render(
                 <Route path="/popup" element={<Popup />} />
                 <Route path="/credits" element={<Credits />} />
                 <Route path="/moreTests" element={<MoreTests/>}/>
+                <Route path="/Regards" element={<Regards/>}/>
+                <Route path="/easterEgg" element={<EasterEgg/>}/>
             </Routes>
         </Router>
     </React.StrictMode>

@@ -26,3 +26,13 @@
     color: white;
     overflow: hidden; /* keeps the rotation masked */
 }
+
+.text-size{
+    font-size: 26px;
+}
+
+.easter-egg-video {
+    width: 800px;
+    height: 800px;
+    border-radius: 10px;
+}
