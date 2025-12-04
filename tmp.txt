@@ -1,0 +1,212 @@
+#include <iostream>
+#include <string>
+#include <vector>
+#include <cctype>
+using namespace std;
+
+class Sequence {
+protected:
+    string seq;
+    static int count;
+
+public:
+    Sequence(string s) : seq(s) {
+        count++;
+        cout << "Sequence constructor called\n";
+    }
+
+    ~Sequence() {
+        count--;
+        cout << "Sequence destructor called\n";
+    }
+
+    int length() {
+        return seq.length();
+    }
+
+    void describe() {
+        cout << "General sequence: " << seq << "\n";
+    }
+
+    static int getCount() {
+        return count;
+    }
+};
+
+int Sequence::count = 0;
+
+class DNASequence : public Sequence {
+public:
+    DNASequence(string s) : Sequence(s) {
+        cout << "DNASequence constructor called\n";
+    }
+
+    ~DNASequence() {
+        cout << "DNASequence destructor called\n";
+    }
+
+    void describe() {
+        cout << "DNA sequence: " << seq << "\n";
+    }
+
+    bool isValid() {
+        for (char c : seq) {
+            char u = toupper(c);
+            if (u != 'A' && u != 'C' && u != 'G' && u != 'T')
+                return false;
+        }
+        return true;
+    }
+};
+
+class RNASequence : public Sequence {
+public:
+    RNASequence(string s) : Sequence(s) {
+        cout << "RNASequence constructor called\n";
+    }
+
+    ~RNASequence() {
+        cout << "RNASequence destructor called\n";
+    }
+
+    void describe() {
+        cout << "RNA sequence: " << seq << "\n";
+    }
+
+    bool isValid() {
+        for (char c : seq) {
+            char u = toupper(c);
+            if (u != 'A' && u != 'C' && u != 'G' && u != 'U')
+                return false;
+        }
+        return true;
+    }
+};
+
+class ProteinSequence : public Sequence {
+public:
+    ProteinSequence(string s) : Sequence(s) {
+        cout << "ProteinSequence constructor called\n";
+    }
+
+    ~ProteinSequence() {
+        cout << "ProteinSequence destructor called\n";
+    }
+
+    void describe() {
+        cout << "Protein sequence: " << seq << "\n";
+    }
+
+    bool isValid() {
+        string validAA = "ACDEFGHIKLMNPQRSTVWY";
+        for (char c : seq) {
+            char u = toupper(c);
+            if (validAA.find(u) == string::npos)
+                return false;
+        }
+        return true;
+    }
+};
+
+class Isoform {
+private:
+    string id;
+    string name;
+    RNASequence rna;
+
+public:
+    Isoform(string id1, string name1, string rnaSeq)
+        : id(id1), name(name1), rna(rnaSeq)
+    {
+        cout << "Isoform constructor called\n";
+    }
+
+    ~Isoform() {
+        cout << "Isoform destructor called\n";
+    }
+
+    void describe() {
+        cout << "Isoform: " << id << " " << name << "\n";
+        rna.describe();
+    }
+};
+
+class Gene {
+private:
+    string id;
+    string name;
+    string chrom;
+    string start;
+    string end;
+    string strand;
+    vector<Isoform> isoforms;
+
+public:
+    void setId(string x) { id = x; }
+    void setName(string x) { name = x; }
+    void setChrom(string x) { chrom = x; }
+    void setStart(string x) { start = x; }
+    void setEnd(string x) { end = x; }
+    void setStrand(string x) { strand = x; }
+
+    void addIsoform(const Isoform& iso) {
+        isoforms.push_back(iso);
+    }
+
+    void describe() {
+        cout << "Gene: " << name << " (" << id << ") "
+             << chrom << ":" << start << "-" << end
+             << " strand " << strand << "\n";
+
+        cout << "Isoforms:\n";
+        for (auto& isf : isoforms)
+            isf.describe();
+    }
+};
+
+int main() {
+
+    cout << "=== Independent Sequences ===\n";
+
+    DNASequence d1("ACTGGAGAAA");
+    d1.describe();
+    cout << "Valid: " << d1.isValid() << "\n";
+
+    DNASequence d2("ACUTGGGG");
+    cout << "Valid: " << d2.isValid() << "\n";
+
+    RNASequence r1("ACCUAGAU");
+    r1.describe();
+    cout << "Valid: " << r1.isValid() << "\n";
+
+    RNASequence r2("ACTGACCT");
+    cout << "Valid: " << r2.isValid() << "\n";
+
+    ProteinSequence p1("ACDEFGHIKLMNPQRSTVWY");
+    p1.describe();
+    cout << "Valid: " << p1.isValid() << "\n";
+
+    cout << "Sequences alive: " << Sequence::getCount() << "\n";
+
+    cout << "\n=== Gene with Isoforms ===\n";
+
+    Gene g;
+    g.setId("ENSG999");
+    g.setName("MYGENE");
+    g.setChrom("chr2");
+    g.setStart("1000");
+    g.setEnd("2000");
+    g.setStrand("+");
+
+    Isoform iso1("ISO1", "main-iso", "ACCUAGAU");
+    Isoform iso2("ISO2", "alt-iso", "AUGGCUU");
+
+    g.addIsoform(iso1);
+    g.addIsoform(iso2);
+
+    g.describe();
+
+    cout << "Sequences alive: " << Sequence::getCount() << "\n";
+
+    return 0;
+}
