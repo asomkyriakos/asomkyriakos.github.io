@@ -150,12 +150,24 @@ public:
             delete i;
     }
 
-    void setId(const string& x) { id = x; }
-    void setName(const string& x) { name = x; }
-    void setChrom(const string& x) { chrom = x; }
-    void setStart(const string& x) { start = x; }
-    void setEnd(const string& x) { end = x; }
-    void setStrand(const string& x) { strand = x; }
+    void setId(const string& x) { 
+        id = x; 
+    }
+    void setName(const string& x) { 
+        name = x; 
+    }
+    void setChrom(const string& x) { 
+            chrom = x; 
+    }
+    void setStart(const string& x) { 
+        start = x; 
+    }
+    void setEnd(const string& x) { 
+        end = x; 
+    }
+    void setStrand(const string& x) { 
+        strand = x; 
+    }
 
     void addIsoform(Isoform* iso) {
         isoforms.push_back(iso);
@@ -195,7 +207,6 @@ int main() {
 
     sequences.clear();
 
-    cout << "\n=== Gene with Isoforms ===\n";
 
     Gene g;
     g.setId("ENSG999");
