@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <cctype>
+
 using namespace std;
 
 class Sequence {
@@ -10,23 +11,22 @@ protected:
     static int count;
 
 public:
-    Sequence(string s) : seq(s) {
+    Sequence(const string& s) : seq(s) {
         count++;
         cout << "Sequence constructor called\n";
     }
 
-    ~Sequence() {
+    virtual ~Sequence() {
         count--;
         cout << "Sequence destructor called\n";
     }
 
-    int length() {
+    int length() const {
         return seq.length();
     }
 
-    void describe() {
-        cout << "General sequence: " << seq << "\n";
-    }
+    virtual void describe() const = 0;
+    virtual bool isValid() const = 0;
 
     static int getCount() {
         return count;
@@ -35,21 +35,22 @@ public:
 
 int Sequence::count = 0;
 
+
 class DNASequence : public Sequence {
 public:
-    DNASequence(string s) : Sequence(s) {
+    DNASequence(const string& s) : Sequence(s) {
         cout << "DNASequence constructor called\n";
     }
 
-    ~DNASequence() {
+    ~DNASequence() override {
         cout << "DNASequence destructor called\n";
     }
 
-    void describe() {
+    void describe() const override {
         cout << "DNA sequence: " << seq << "\n";
     }
 
-    bool isValid() {
+    bool isValid() const override {
         for (char c : seq) {
             char u = toupper(c);
             if (u != 'A' && u != 'C' && u != 'G' && u != 'T')
@@ -59,21 +60,23 @@ public:
     }
 };
 
+
+
 class RNASequence : public Sequence {
 public:
-    RNASequence(string s) : Sequence(s) {
+    RNASequence(const string& s) : Sequence(s) {
         cout << "RNASequence constructor called\n";
     }
 
-    ~RNASequence() {
+    ~RNASequence() override {
         cout << "RNASequence destructor called\n";
     }
 
-    void describe() {
+    void describe() const override {
         cout << "RNA sequence: " << seq << "\n";
     }
 
-    bool isValid() {
+    bool isValid() const override {
         for (char c : seq) {
             char u = toupper(c);
             if (u != 'A' && u != 'C' && u != 'G' && u != 'U')
@@ -83,22 +86,24 @@ public:
     }
 };
 
+
+
 class ProteinSequence : public Sequence {
 public:
-    ProteinSequence(string s) : Sequence(s) {
+    ProteinSequence(const string& s) : Sequence(s) {
         cout << "ProteinSequence constructor called\n";
     }
 
-    ~ProteinSequence() {
+    ~ProteinSequence() override {
         cout << "ProteinSequence destructor called\n";
     }
 
-    void describe() {
+    void describe() const override {
         cout << "Protein sequence: " << seq << "\n";
     }
 
-    bool isValid() {
-        string validAA = "ACDEFGHIKLMNPQRSTVWY";
+    bool isValid() const override {
+        const string validAA = "ACDEFGHIKLMNPQRSTVWY";
         for (char c : seq) {
             char u = toupper(c);
             if (validAA.find(u) == string::npos)
@@ -108,85 +113,87 @@ public:
     }
 };
 
+
 class Isoform {
 private:
     string id;
     string name;
-    RNASequence rna;
+    Sequence* rna;   // polymorphism
 
 public:
-    Isoform(string id1, string name1, string rnaSeq)
-        : id(id1), name(name1), rna(rnaSeq)
-    {
+    Isoform(const string& i, const string& n, Sequence* r)
+        : id(i), name(n), rna(r) {
         cout << "Isoform constructor called\n";
     }
 
     ~Isoform() {
+        delete rna;
         cout << "Isoform destructor called\n";
     }
 
-    void describe() {
+    void describe() const {
         cout << "Isoform: " << id << " " << name << "\n";
-        rna.describe();
+        rna->describe();
     }
 };
 
+
+
 class Gene {
 private:
-    string id;
-    string name;
-    string chrom;
-    string start;
-    string end;
-    string strand;
-    vector<Isoform> isoforms;
+    string id, name, chrom, start, end, strand;
+    vector<Isoform*> isoforms;
 
 public:
-    void setId(string x) { id = x; }
-    void setName(string x) { name = x; }
-    void setChrom(string x) { chrom = x; }
-    void setStart(string x) { start = x; }
-    void setEnd(string x) { end = x; }
-    void setStrand(string x) { strand = x; }
+    ~Gene() {
+        for (auto i : isoforms)
+            delete i;
+    }
 
-    void addIsoform(const Isoform& iso) {
+    void setId(const string& x) { id = x; }
+    void setName(const string& x) { name = x; }
+    void setChrom(const string& x) { chrom = x; }
+    void setStart(const string& x) { start = x; }
+    void setEnd(const string& x) { end = x; }
+    void setStrand(const string& x) { strand = x; }
+
+    void addIsoform(Isoform* iso) {
         isoforms.push_back(iso);
     }
 
-    void describe() {
+    void describe() const {
         cout << "Gene: " << name << " (" << id << ") "
              << chrom << ":" << start << "-" << end
              << " strand " << strand << "\n";
 
         cout << "Isoforms:\n";
-        for (auto& isf : isoforms)
-            isf.describe();
+        for (auto i : isoforms)
+            i->describe();
     }
 };
 
+
+
 int main() {
 
-    cout << "=== Independent Sequences ===\n";
+    vector<Sequence*> sequences;
 
-    DNASequence d1("ACTGGAGAAA");
-    d1.describe();
-    cout << "Valid: " << d1.isValid() << "\n";
+    sequences.push_back(new DNASequence("ACTGGAGAAA"));
+    sequences.push_back(new RNASequence("ACCUAGAU"));
+    sequences.push_back(new ProteinSequence("ACDEFGHIK"));
 
-    DNASequence d2("ACUTGGGG");
-    cout << "Valid: " << d2.isValid() << "\n";
-
-    RNASequence r1("ACCUAGAU");
-    r1.describe();
-    cout << "Valid: " << r1.isValid() << "\n";
-
-    RNASequence r2("ACTGACCT");
-    cout << "Valid: " << r2.isValid() << "\n";
-
-    ProteinSequence p1("ACDEFGHIKLMNPQRSTVWY");
-    p1.describe();
-    cout << "Valid: " << p1.isValid() << "\n";
+    for (Sequence* s : sequences) {
+        s->describe();
+        cout << "Length: " << s->length() << "\n";
+        cout << "Valid: " << s->isValid() << "\n\n";
+    }
 
     cout << "Sequences alive: " << Sequence::getCount() << "\n";
+
+    for (Sequence* s : sequences)
+        delete s;
+
+    sequences.clear();
 
     cout << "\n=== Gene with Isoforms ===\n";
 
@@ -198,11 +205,11 @@ int main() {
     g.setEnd("2000");
     g.setStrand("+");
 
-    Isoform iso1("ISO1", "main-iso", "ACCUAGAU");
-    Isoform iso2("ISO2", "alt-iso", "AUGGCUU");
+    g.addIsoform(new Isoform(
+        "ISO1", "main-iso", new RNASequence("ACCUAGAU")));
 
-    g.addIsoform(iso1);
-    g.addIsoform(iso2);
+    g.addIsoform(new Isoform(
+        "ISO2", "alt-iso", new RNASequence("AUGGCUU")));
 
     g.describe();
 
